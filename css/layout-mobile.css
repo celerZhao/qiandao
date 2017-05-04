@@ -1,0 +1,363 @@
+/**
+ *@Name:    global-mobile.css
+ *@Object:  mobile
+ *@Author:  XiaoYu/Guo CJ
+ *@E-mail:  592429285@qq.com
+ *@Time:    2017.01.12
+*/
+
+@charset "UTF-8";
+/*== 移动端常规app页面 ==*/
+html, body {
+    height: 100%;
+    background: #007ee5;
+}
+
+.container {
+    max-width: 750px;
+    margin: 0 auto;
+    background: #fcd21d url("../img/bg.jpg") no-repeat 0 0;
+    background-size: 100% auto;
+}
+
+.text-danger {
+    color: #f93131;
+}
+
+.text-yellow {
+    color: #fcd21d;
+}
+
+.qd-txt {
+    margin-top: 18%;
+    padding: 1rem 0;
+    border-radius: 4px;
+    background-color: rgba(255, 255, 255, .2);
+}
+
+.btn-red,
+.btn-gray {
+    display: block;
+    height: 4.5rem;
+    margin-top: 2.5rem;
+    background: url("../img/btn-red.png") no-repeat center;
+    background-size: auto 4.5rem;
+    line-height: 4rem;
+}
+
+.btn-gray {
+    background-image: url("../img/btn-gray.png");
+    color: #ba9a9a !important;
+}
+
+/*.btn-gray:active {background-color: rgba(0,0,0,0) !important;}*/
+
+.qd-date {
+    margin-top: 10.8rem;
+}
+
+.date-ym {
+    padding: 1rem 0;
+    border-radius: .5rem .5rem 0 0;
+    background-color: #f93131;
+}
+
+.date-ym:before,
+.date-ym:after,
+.mask-inner .title:before,
+.mask-inner .title:after {
+    content: '';
+    position: absolute;
+    top: 1.5rem;
+    width: 2rem;
+    height: 3rem;
+    z-index: -1;
+}
+
+.date-ym:before,
+.mask-inner .title:before {
+    left: -.8rem;
+    background: url("../img/date-left.png") no-repeat 0 0;
+    background-size: auto 100%;
+}
+
+.date-ym:after,
+.mask-inner .title:after {
+    right: -.8rem;
+    background: url("../img/date-right.png") no-repeat 100% 100%;
+    background-size: auto 100%;
+}
+
+.date-div {
+    padding: 1rem 2rem;
+    border-radius: 0 0 .5rem .5rem;
+    background-color: #fff;
+}
+
+.date-div th {
+    text-align: center;
+}
+
+.date-div th,
+.date-div td {
+    height: 3rem;
+    line-height: 3rem;
+}
+
+.date-div td.active {
+    background: url("../img/icon-yes.png") no-repeat 60% 85%;
+    background-size: auto 1.8rem;
+}
+
+.qd-info {
+    margin-top: 1.5rem;
+}
+
+.qd-info > ul > li {
+    float: left;
+    width: 50%;
+    border-bottom: 1px solid #d3ad08;
+    text-align: center;
+    position: relative;
+}
+
+.qd-info > ul > li span {
+    display: inline-block;
+    padding: .5rem 1.5rem;
+    color: #492e00;
+}
+
+.qd-info > ul > li.active span {
+    color: #f93131;
+}
+
+.qd-info > ul > li.active span:after {
+    content: '';
+    position: absolute;
+    width: 60%;
+    height: 2px;
+    z-index: 1;
+    left: 0;
+    right: 0;
+    bottom: -1px;
+    background: #f93131;
+    margin: 0 auto;
+    color: #f93131;
+}
+
+.text-coffe {
+    color: #7e6705;
+}
+
+.tab-content {
+    font-size: 1.2rem;
+    color: #7e6705;
+}
+
+/*复制链接*/
+#copylink {
+    padding: 0 1rem;
+}
+
+#copylink > p {
+}
+
+#copylink > textarea {
+    margin: 0 auto 1rem;
+    padding: 5px 5px;
+    font-size: 1.1rem;
+    z-index: 100;
+    border: 1px solid #ddd;
+    resize: none;
+    width: 100%;
+}
+
+/*弹窗样式覆盖*/
+.bg-white {
+    background-color: #fff !important;
+}
+@media (min-width:640px) {
+  .btn-fixed, .native-share{left: 0;bottom:0;margin-left:-320px;width:640px;}
+}
+
+.mask-inner .title {
+    position: relative;
+    padding: 1rem 0;
+    border-bottom: 4px solid #d72121;
+    border-radius: .5rem .5rem 0 0;
+    background-color: #f93131;
+    color: #fff;
+}
+
+.mask-inner {
+    background: none;
+    overflow: visible;
+    max-width:750px;
+    margin-left:auto;
+    margin-right:auto;
+}
+
+.mask-inner .cont, .mask-inner .btnCont {
+    margin: 0 .5rem;
+    background-color: #fff;
+}
+
+/*.cont.word-break.flag {border-radius: 0 0 .8rem .8rem;}*/
+.mask-inner .btnCont {
+    border-radius: 0 0 .8rem .8rem;
+}
+
+.mask-inner .btnCont .btn {
+    height: 4.5rem;
+    border: none;
+    background: transparent url("../img/btn-yellow.png") no-repeat center;
+    background-size: 100% 100%;
+    line-height: 2.5rem;
+    color: #f93131;
+    font-size: 1.6rem;
+    font-weight: bold;
+}
+
+.btn-danger {
+    color: #fff;
+    background-color: #f93131;
+    border-color: #f93131;
+}
+
+.mask-inner .form-control {
+    border: 1px solid #f93131;
+    border-radius: 1rem !important;
+}
+
+.mask-inner .title:before, .mask-inner .title:after {
+    width: 3rem;
+    height: 3.5rem;
+    top: 1.5rem;
+}
+
+.mask-inner .title:before {
+    left: -1rem;
+}
+
+.mask-inner .title:after {
+    right: -1rem;
+}
+
+.mask-inner .icon-btn {
+    top: -5rem;
+    color: #fff;
+    right: -1rem;
+    font-size: 2rem;
+}
+
+.icon-no:before {
+    content: "\e610";
+}
+
+.mask-inner .cont.word-break.alone.text-center {
+    border-radius: 0 0 .5rem .5rem;
+}
+
+/*签到成功*/
+.mask-inner .cont .share-wrap {
+    text-align: center;
+}
+
+.mask-inner .cont .share-wrap > p {
+    margin-bottom: 0.8rem;
+}
+
+.mask-inner .cont .share-wrap > .p-com {
+    color: black;
+    font-size: 1.4rem;
+}
+
+.mask-inner .cont .share-wrap > .p-com > i {
+    color: red;
+}
+
+.mask-inner .cont .share-wrap > .share-desc {
+    margin: 0.6rem 0 1rem;
+}
+
+/**===========**/
+.icon-xiangxiafanye {
+    color: #fff !important;
+    font-size: 1.4rem;
+}
+
+.icon-left {
+    transform: rotate(90deg);
+    -webkit-transform: rotate(90deg);
+}
+
+.icon-right {
+    transform: rotate(-90deg);
+    -webkit-transform: rotate(-90deg);
+}
+
+/***==========*/
+
+/*===活动结束页=====*/
+.activity-end {
+    padding-bottom: 30px;
+    background: #f3f3f3;
+    min-height: 100%;
+}
+
+.activity-end .activity-img:nth-of-type(2) {
+    margin-bottom: 3rem;
+}
+
+/*分享*/
+.mask-share {
+    display: block;
+    position: fixed;
+    z-index: 1000000;
+    width: 100%;
+    background: #FFFFFF;
+    bottom: 0;
+}
+
+.mask-share .shareTitle {
+    box-sizing: border-box;
+    padding: 1rem 0;
+    border-bottom: 1px solid #bababa;
+}
+
+.mask-share .share-left {
+    color: #4b4b4b;
+    font-size: 1.2rem;
+    width: 86%;
+    text-align: center;
+    display: grid;
+}
+
+.mask-share .share-right {
+    width: 14%;
+    text-align: center;
+    display: grid;
+}
+
+.mask-share .share-content {
+    width: 100%;
+    padding: 1.2rem 0 0.8rem;
+}
+
+.mask-share .share-content > a {
+    width: 20%;
+    margin: 0 6.6%;
+    text-align: center;
+    color: #4B4B4B;
+}
+
+@media (min-width: 751px) {
+    .qd-date {
+        margin-top: 15rem;
+    }
+}
+@media (max-width: 320px) {
+    .qd-date {
+        margin-top: 7.5rem;
+    }
+}

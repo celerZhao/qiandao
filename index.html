@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="format-detection" content="telephone=no,email=no"/>
+    <meta name="ML-Config" content="fullscreen=yes,preventMove=no"/>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <meta name="description" content=""/>
+    <meta name="author" content=""/>
+    <title>光汇石油-签到</title>
+    <link rel="stylesheet" href="css/global-mobile.css"/>
+    <link rel="stylesheet" href="css/layout-mobile.css"/>
+    <script>
+        var cssEl = document.createElement('style');
+        document.documentElement.firstElementChild.appendChild(cssEl);
+        function setPxPerRem() {
+            var dpr = 1;
+            var pxPerRem = document.documentElement.clientWidth * dpr / 32;
+            if (pxPerRem < 10) pxPerRem = 10;
+            if (pxPerRem > 20) pxPerRem = 20;
+            cssEl.innerHTML = 'html{font-size:' + pxPerRem + 'px!important;}';
+        }
+        setPxPerRem();
+    </script>
+</head>
+<body>
+<div class="container pb-30">
+    <div class="text-center text-white qd-txt">
+            <span class="block fs-16">每日签到领<span class="text-danger fs-16">X</span>升油（价值：<span
+                    class="text-danger fs-16">XX</span>元）</span>
+        购买相应产品时，可将油量直抵现金
+    </div>
+    <!-- <div class="text-center text-yellow fs-30 italic bold qd-txt pt-20 pb-20">签到已领<span class="text-danger">XXX</span>升油</div> -->
+
+    <a id="layerBtnInput2" class="text-center text-white fs-20 bold btn-red" href="javascript:void(0)">立即签到</a>
+    <!-- <a class="text-center text-white fs-20 bold btn-gray" href="javascript:void(0)">明日签到领X升油</a> -->
+
+    <div class="qd-date">
+        <div class="relative text-center text-white date-ym">
+            <div class="row">
+                <div class="col-xs-3 text-right" id="lastMonth"><i class="icon-xiangxiafanye icon-left"></i></div>
+                <div id="showDate" class="col-xs-6">2017年4月</div>
+                <div class="col-xs-3 text-left" id="nextMonth"><i class="icon-xiangxiafanye icon-right"></i></div>
+            </div>
+        </div>
+        <div class="date-div" id="calendar">
+        </div>
+    </div>
+
+    <div class="qd-info">
+        <ul class="clear list-unstyled mb-10">
+            <li class="active"><span>签到说明</span></li>
+            <li><span>关于光汇</span></li>
+        </ul>
+        <div class="fs-12">
+            <ol class="text-coffe tab-content">
+                <li>说明说明说明说明说明说明说明说明说明说明说明说明说明说明说明说明说明说明</li>
+                <li>说明说明说明说明说明说明说明说明说明说明说明说明说明说明说明说明说明说明</li>
+                <li>说明说明说明说明说明说明说明说明说明说明说明说明说明说明说明说明说明说明</li>
+                <li>说明说明说明说明说明说明说明说明说明说明说明说明说明说明说明说明说明说明</li>
+            </ol>
+            <div class="text-coffe tab-content" style="display:none;">
+                光汇云油平台是光汇石油依托其实业资源打造的全国首家“能源产业链+互联网”的能源电子商务平台，于2016年1月12日正式上线。光汇石油是国内最大的民营石油企业，25年来通过精准的企业战略和稳健的经营风格在海内外建立起极具市场竞争力的石油全产业链实业体系。光汇云油改变传统石油消费模式，通过手机APP加油站为车主提供线上储油、线下加油消费服务，使用户可以自主规划用油成本，享受用油、储油、增值服务等全新的油品消费体验。
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="js/lib/jquery-1.11.3.min.js"></script>
+<script src="js/bOilPlugIn/bOilPlugIn.js"></script>
+<script src="js/nativeShare/nativeShare.js"></script>
+<script src="js/lib/calendar.js"></script>
+<script>
+    var bOilApp = new bOilPlugIn(), App = {
+
+        status: 0, //是否后端开发状态(0前端，1后端)
+
+        userState: 1, //用户状态，0未登录, 1已登录
+
+        comeFromApp: 0, // 是否来自App 0:否  1:是
+
+        activityTime: 1, // 是否可以参与 0：否 1：是
+
+        init: function () { // 初始化
+
+            App.homeFooterTab(); // 主页底部tab切换
+
+            $('#layerBtnInput2').on('click', function () {//通用弹层--带表单和按钮的提示框-return obj
+
+                if (App.activityTime == 0) { // 不在时间范围内
+                    //debugger;
+                    bOilApp.tips({
+                        title: '提示',
+                        closeId: 'tipsCloseBtn',
+                        btnNums: 1,
+                        content: '抱歉，此次活动只支持注册时间为2017年1月1日以后用户参与，谢谢您的参与!',
+                        btn: {
+                            btnSure: {
+                                text: '确 定',
+                                href: 'javascript:void(0);',
+                                fun: function () {
+                                    return {
+                                        btnSure: function () {
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        fixedHeight: false,
+                        alone: true
+                    });
+                } else { // 在时间范围内
+                    if (App.userState == 0) { // 未登录
+
+                        if (App.comeFromApp == 0) { // 不是来自App
+
+                            App.noComeApp();
+
+                        } else {  // 来自App
+                            App.comeApp();
+
+                        }
+                    } else { // 已登录
+                        App.atTendSuccess();
+                    }
+                }
+
+            })
+        },
+        // 主页底部tab切换
+        homeFooterTab: function () {
+            $('.list-unstyled>li').on('click', function () {
+                var index = $(this).index();
+                $(this).addClass('active').siblings().removeClass('active');
+                $('.tab-content').eq(index).show().siblings().hide();
+            })
+        },
+        // 签到成功 app
+        atTendSuccess: function () {
+            var shareHtml = '<div class="share-wrap">' +
+                    '<p class="oil-num p-com">油量: <i>60</i>升</p>' +
+                    '<p class="oil-prize p-com">（价值: <i>169</i>元）</p>' +
+                    '<p class="share-desc">购买相应产品时,可将油量直抵现金</p>' +
+                    '</div>';
+            bOilApp.tips({
+                title: '签到成功',
+                closeId: 'tipsCloseBtn',
+                btnNums: 1,
+                content: shareHtml,
+                btn: {
+                    btnSure: {
+                        text: '分享得更多奖励',
+                        href: 'javascript:void(0);',
+                        fun: function () {
+
+                            return {
+                                btnPhoneCode: function () {
+                                },
+                                btnSure: function () {
+                                    setTimeout(function () {
+                                        App.shareFriend(); //分享调用
+                                    }, 200)
+
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+            App.isPcOpen();
+        },
+        // 签到成功 非app
+        atTendSuccess1: function () {
+            var shareHtml = '<div class="share-wrap">' +
+                    '<p class="oil-num p-com">油量: <i>60</i>升</p>' +
+                    '<p class="oil-prize p-com">（价值: <i>169</i>元）</p>' +
+                    '<p class="share-desc">购买相应产品时,可将油量直抵现金</p>' +
+                    '</div>';
+            var btnContent = '<div class="btnCont"><a id="btn_shareMore" class="btn btn-danger" href="javascript:void(0);">分享得更多奖励</a></div>'
+                        +'<div class="btnCont"><a class="btn btn-danger" href="#downloadAPP">下载App使用油</a></div>';
+            bOilApp.tips({
+                title: '签到成功',
+                closeId: 'tipsCloseBtn',
+                content: shareHtml+btnContent
+            });
+
+            App.isPcOpen();
+
+            $("#btn_shareMore").on("click",function(){
+                $('#maskFull, #maskInner').remove();
+                setTimeout(function () {
+                    App.shareFriend(); //分享调用
+                }, 200)
+            })
+
+        },
+        // 分享好友
+        shareFriend: function () {
+            //应用平台判断
+            var config = {
+                url: 'http://www.baidu.com',
+                title: '这里是分享内容的标题',
+                desc: '这里是分享的内容描述',
+                img: 'http://test.bwoonline.com/guocj/tmp/mobile/img/Qr-code.png',
+                img_title: '3333333333333',
+                from: '44444444444444444444'
+            };
+            var platformSign = GetQueryString("fromApp");
+            if (platformSign === 'c2b_android_phone') {
+                //安卓App
+                var jsonString = {
+                    'promotion_url': config.url,
+                    'promotion_title': config.title,
+                    'promotion_text': config.desc,
+                    'recommend_image': config.img,
+                    'button_text': config.img_title,
+
+                }
+                OCModel.share(JSON.stringify(jsonString));
+            } else if (platformSign === 'c2b_ios_phone') {
+                //IOS App
+                var jsonString = {
+                    'promotion_url': config.url,
+                    'promotion_title': config.title,
+                    'promotion_text': config.desc,
+                    'recommend_image': config.img,
+                    'button_text': config.img_title,
+
+                }
+                OCModel.share(JSON.stringify(jsonString));
+
+            } else {
+                var nShare = new nativeShare("#nativeShareBtn", '0000', config);
+            }
+        },
+        // App入口
+        comeApp: function () {
+            var inputHtml = '<form><ul class="list-unstyled list-p5">'
+                    + '<li class="bg-white"><div class="form-group"><input id="userPhone" class="form-control bg-white" type="tel" maxlength="11" placeholder="请输入手机号"></div></li>'
+                    + '<li class="bg-white"><div class="form-group"><span class="left"><input id="phoneCode" class="form-control bg-white" type="tel" maxlength="6" placeholder="请输入验证码"></span><span class="right"><a id="btnPhoneCode" class="btn btn-danger" href="javascript:void(0);">获取验证码</a></span></div></li>'
+                    + '</ul></form>';
+            bOilApp.tips({
+                title: '签到领油',
+                closeId: 'tipsCloseBtn',
+                btnNums: 1,
+                // fnCbs: 2,
+                content: inputHtml,
+                btn: {
+                    btnSure: {
+                        text: '立即领油',
+                        href: 'javascript:void(0);',
+                        fun: function () {
+                            //清除输入框文本控件
+                            bOilApp.clearInput();
+
+                            return {
+                                btnPhoneCode: function (thisElement) {
+                                    var _this = thisElement, thisId = $(_this).attr('id'), res = bOilApp.getPhoneCord(_this, 'userPhone');
+                                    if (App.status) {//后端开发
+                                        if (res) {
+                                            //前端校验通过,后端请求
+                                            $.ajax({
+                                                url: '',
+                                                dataType: '',
+                                                data: {},
+                                                type: 'post',
+                                                success: function () {
+                                                    //to do something...
+
+                                                    //执行倒计时
+                                                    bOilApp.codeTime(thisId, res, 120);
+                                                },
+                                                error: function () {
+
+                                                }
+                                            });
+                                        }
+                                    } else {//前端开发
+                                        if (res) {
+                                            //执行倒计时
+                                            //bOilApp.waitTime=0;
+                                            console.log('120');
+                                            bOilApp.codeTime(thisId, res, 120);
+                                        }
+                                    }
+                                },
+                                btnSure: function (thisElement) {
+                                    var _this = thisElement, res = bOilApp.submintForm(_this, '#userPhone', '#phoneCode');
+
+
+                                    if (App.status) {
+                                        if (res) {
+                                            //前端校验通过,后端请求
+                                            $.ajax({
+                                                url: '',
+                                                dataType: '',
+                                                data: {},
+                                                type: 'post',
+                                                success: function () {
+
+                                                    $("#maskInner,#maskFull").remove();
+                                                    App.atTendSuccess();
+                                                    //等候加载提示
+                                                    //  bOilApp.alertMsg(bOilApp.loadingText, _this, 'loading');
+                                                },
+                                                error: function () {
+
+                                                }
+                                            });
+                                        }
+                                    } else {
+                                        if (res) {
+                                            $('#maskFull, #maskInner').remove();
+                                            console.log('app123');
+                                            App.atTendSuccess();
+                                            //跳转页面前的等候加载提示
+                                            //bOilApp.alertMsg(bOilApp.loadingText, _this, 'loading');
+                                        }
+                                    }
+                                }
+                            };
+                        },
+                        display: true
+                    }
+                }
+            });
+        },
+        // 非App入口
+        noComeApp: function () {
+            var inputHtml = '<form><ul class="list-unstyled list-p5">'
+                    + '<li class="bg-white"><div class="form-group"><input id="userPhone" class="form-control bg-white" type="tel" maxlength="11" placeholder="请输入手机号"></div></li>'
+                    + '<li class="bg-white"><div class="form-group"><span class="left"><input id="phoneCode" class="form-control bg-white" type="tel" maxlength="6" placeholder="请输入验证码"></span><span class="right"><a id="btnPhoneCode" class="btn btn-danger" href="javascript:void(0);">获取验证码</a></span></div></li>'
+                    + '</ul></form>';
+            bOilApp.tips({
+                title: '签到领油',
+                closeId: 'tipsCloseBtn',
+                btnNums: 1,
+                fnCbs: 2,
+                content: inputHtml,
+                btn: {
+                    btnSure: {
+                        text: '立即领油',
+                        href: 'javascript:void(0);',
+                        fun: function () {
+                            //清除输入框文本控件
+                            bOilApp.clearInput();
+
+                            return {
+                                btnPhoneCode: function (thisElement) {
+                                    var _this = thisElement, thisId = $(_this).attr('id'), res = bOilApp.getPhoneCord(_this, 'userPhone');
+                                    if (App.status) {//后端开发
+                                        if (res) {
+                                            //前端校验通过,后端请求
+                                            $.ajax({
+                                                url: '',
+                                                dataType: '',
+                                                data: {},
+                                                type: 'post',
+                                                success: function () {
+                                                    //to do something...
+
+                                                    //执行倒计时
+                                                    bOilApp.codeTime(thisId, res, 120);
+                                                },
+                                                error: function () {
+
+                                                }
+                                            });
+                                        }
+                                    } else {//前端开发
+                                        if (res) {
+                                            //执行倒计时
+                                            bOilApp.codeTime(thisId, res, 120);
+                                        }
+                                    }
+                                },
+                                btnSure: function (thisElement) {
+                                    var _this = thisElement, res = bOilApp.submintForm(_this, '#userPhone', '#phoneCode');
+
+                                    if (App.status) {
+                                        if (res) {
+                                            //前端校验通过,后端请求
+                                            $.ajax({
+                                                url: '',
+                                                dataType: '',
+                                                data: {},
+                                                type: 'post',
+                                                // beforeSend: function() {bOilApp.alertMsg(bOilApp.loadingText, _this, 'loading');},
+                                                success: function () {
+                                                    App.atTendSuccess1();
+                                                },
+                                                error: function () {
+
+                                                }
+                                            });
+                                        }
+                                    } else {
+                                        if (res) {
+//                                            console.log('000')
+                                            $("#maskInner,#maskFull").remove();
+                                            App.atTendSuccess1();
+                                            //跳转页面前的等候加载提示
+                                            // bOilApp.alertMsg(bOilApp.loadingText, _this, 'loading');
+                                        }
+                                    }
+                                }
+                            };
+                        },
+                        display: true
+                    }
+                }
+            });
+        },
+        // 判断是pc还是移动端
+        isPcOpen: function() {
+          function IsPC() {
+              var userAgentInfo = navigator.userAgent;
+              var Agents = ["Android", "iPhone",
+                          "SymbianOS", "Windows Phone",
+                          "iPad", "iPod"];
+              var flag = true;
+              for (var v = 0; v < Agents.length; v++) {
+                  if (userAgentInfo.indexOf(Agents[v]) > 0) {
+                      flag = false;
+                      break;
+                  }
+              }
+              return flag;
+          }
+
+          if(IsPC()) { // pc
+            $('#btn_shareMore').hide();
+           //$('.weixin,.weixin_friend').hide();
+          }else { //移动端
+            $('#btn_shareMore').show();
+            //$('.weixin,.weixin_friend').show();
+          }
+        },
+    };
+    $(function () {
+        App.init();
+        var calendar = new Calendar();
+        calendar.init();    // 初始化
+        /** 查询指定月份的签到 @param
+         * @param 年
+         * @param 月  从0月开始
+         * @param 日  可以为空
+         * @param 年  签到日[1,2,3 31];
+         */
+        calendar.rendCalendar("2017", "4", "4", [4, 11, 12]);
+    });
+</script>
+</body>
+</html>

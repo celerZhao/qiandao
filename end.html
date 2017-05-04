@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="format-detection" content="telephone=no,email=no" />
+    <meta name="ML-Config" content="fullscreen=yes,preventMove=no" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>签到功能结束</title>
+    <link rel="stylesheet" href="css/global-mobile.css" />
+    <link rel="stylesheet" href="css/layout-mobile.css" />
+    <script type="text/javascript">
+        var cssEl = document.createElement('style');
+        document.documentElement.firstElementChild.appendChild(cssEl);
+        function setPxPerRem(){
+            var dpr = 1;
+            var pxPerRem = document.documentElement.clientWidth * dpr / 32;
+            if (pxPerRem < 10) pxPerRem = 10;
+            if (pxPerRem > 20) pxPerRem = 20;
+            cssEl.innerHTML = 'html{font-size:' + pxPerRem + 'px!important;}';
+        }
+        setPxPerRem();
+    </script>
+</head>
+<body>
+<div class="container activity-end">
+    <div class="row">
+        <img class="activity-img" src="img/activity-end-img.jpg">
+        <img class="activity-img" src="img/activity-end-img-01.jpg">
+        <!-- <img class="activity-img" src="img/activity-end-img-02.jpg"> -->
+    </div>
+    <div class="row">
+        <div class="col-xs-8 col-xs-offset-2">
+            <a class="btn btn-danger" href="javascript:void(0);">下载APP有意外惊喜</a>
+        </div>
+    </div>
+</div>
+<script src="js/lib/jquery-1.11.3.min.js"></script>
+</body>
+</html>
