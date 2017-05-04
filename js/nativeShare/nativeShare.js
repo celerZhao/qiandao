@@ -182,6 +182,8 @@ var nativeShare = function (shareBtnId, pcode, config) {
                 '</div>';
             $('body').append(html);
             $('#closeTipImg').on('click', function () {
+                alert("reload");
+                window.location.reload();
                 $('#maskFull, #maskInner').remove();
                 $('#nativeShareBtn').removeClass('active');
             });
